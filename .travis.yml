@@ -10,11 +10,16 @@ services:
 
 release:
   - script:
-    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    - docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
       if [ "$TRAVIS_BRANCH" == "master" ]; then
         docker build -t batazor/clickhouse-server;
-        docker push batazor/clickhouse-server;
       else
         docker build -t batazor/clickhouse-server:${TRAVIS_TAG};
+      fi
+    after_success:
+    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      if [ "$TRAVIS_BRANCH" == "master" ]; then
+        docker push batazor/clickhouse-server;
+      else
         docker push batazor/clickhouse-server:${TRAVIS_TAG};
       fi
