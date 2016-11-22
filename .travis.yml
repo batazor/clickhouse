@@ -11,9 +11,9 @@ branches:
 script:
 - if [ "${TRAVIS_BRANCH}" == "master" ];
   then
-    docker build -t batazor/clickhouse-server
+    docker build -t batazor/clickhouse-server .
   else
-    docker build -t batazor/clickhouse-server:${TRAVIS_TAG}
+    docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
   fi
 
 after_success:
