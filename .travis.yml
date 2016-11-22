@@ -3,13 +3,12 @@ sudo: required
 services:
 - docker
 
-branches:
-  only:
-  - /^[0-9]+.[0-9]+.[0-9]+(-.*)?$/
-
-script:
-- docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
-
-after_success:
-- docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  docker push batazor/clickhouse-server:${TRAVIS_TAG};
+release:
+  - branches:
+      only:
+      - /^[0-9]+.[0-9]+.[0-9]+(-.*)?$/
+    script:
+    - docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
+    after_success:
+    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker push batazor/clickhouse-server:${TRAVIS_TAG};
