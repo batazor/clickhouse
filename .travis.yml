@@ -9,12 +9,21 @@ services:
     - /^[0-9]+.[0-9]+.[0-9]+(-.*)?$/
 
 release:
-  - script:
+  - branches:
+      only:
+      - /^[0-9]+.[0-9]+.[0-9]+(-.*)?$/
+    script:
+    - docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
+    after_success:
     - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      if [ "$TRAVIS_BRANCH" == "master" ]; then
-        docker build -t batazor/clickhouse-server;
-        docker push batazor/clickhouse-server;
-      else
-        docker build -t batazor/clickhouse-server:${TRAVIS_TAG};
-        docker push batazor/clickhouse-server:${TRAVIS_TAG};
-      fi
+      docker push batazor/clickhouse-server:${TRAVIS_TAG};
+
+release:
+  - branches:
+      only:
+      - master
+    script:
+    - docker build -t batazor/clickhouse-server .
+    after_success:
+    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker push batazor/clickhouse-server;
