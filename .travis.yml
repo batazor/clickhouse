@@ -4,8 +4,10 @@ services:
   - docker
 
 deploy:
-  skip_cleanup: true
-  provider: script
-  script: bin/deploy.sh
-  on:
-    tags: true
+  - provider: script
+    skip_cleanup: true
+    provider: script
+    script: ./docker-hub.sh
+    on:
+      tags: true
+      branch: master
