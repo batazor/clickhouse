@@ -3,9 +3,16 @@ sudo: required
 services:
   - docker
 
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: bin/deploy.sh
-  on:
-    tags: true
+branches:
+  only:
+  - master
+  - /^[0-9]+.[0-9]+.[0-9]+(-.*)?$/
+
+script:
+  - docker build -t batazor/clickhouse-server:${TRAVIS_TAG} .
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker push batazor/clickhouse-server:${TRAVIS_TAG};
+    fi
