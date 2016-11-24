@@ -11,4 +11,6 @@ RUN apt-get update && apt-get install -y clickhouse-server-common=$CLICKHOUSE_VE
 
 EXPOSE 9000 8123 9009
 
-CMD ["service", "clickhouse-server", "start --config=$CLICKHOUSE_CONFIG"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+CMD /entrypoint.sh
