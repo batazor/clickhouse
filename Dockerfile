@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 ENV CLICKHOUSE_CONFIG /etc/clickhouse-server/config.xml
-ENV CLICKHOUSE_VERSION 1.1.54074
+ENV CLICKHOUSE_VERSION 1.1.54080
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 RUN mkdir -p /etc/apt/sources.list.d
