@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:20.04
 
 ENV CLICKHOUSE_CONFIG /etc/clickhouse-server/config.xml
 ENV CLICKHOUSE_VERSION 1.1.54080
